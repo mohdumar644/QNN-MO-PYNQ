@@ -1,0 +1,109 @@
+{
+    "network": "mnist",
+    "input_image": "/path/to/testing.bin",
+    "verification_image": "/path/to/verification.bin",    
+    "binparam": "/path/to/binparam-mnist",
+    "use_binparams" : true,
+    "binparam_skip" : 1,
+    "layer_skip" : 1,
+    "layers": [
+        {
+            "name": "conv0",
+            "func": "conv_layer",
+            "input_bits": 2,
+            "output_bits": 2,
+            "weight_bits": 1,
+            "threshold_bits": 16,
+            "kernel_shape": 3,
+            "kernel_stride": 1,
+            "input_channels": 1,
+            "input": [1, 28, 28],
+            "output_channels": 64,
+            "output": [64, 28, 28],
+            "padding": 0
+        },
+        {
+            "name": "pool0",
+            "func": "maxpool_layer",
+            "input_bits": 2,
+            "output_bits": 2,
+            "kernel_shape": 3,
+            "kernel_stride": 2,
+            "input_channels": 64,
+            "input": [64, 28, 28],
+            "output_channels": 64,
+            "output": [64, 14, 14],
+            "padding": 0
+        },
+        {
+            "name": "conv1",
+            "func": "conv_layer",
+            "input_bits": 2,
+            "output_bits": 2,
+            "weight_bits": 1,
+            "threshold_bits": 16,
+            "kernel_shape": 3,
+            "kernel_stride": 1,
+            "input_channels": 64,
+            "input": [64, 14, 14],
+            "output_channels": 64,
+            "output": [64, 14, 14],
+            "padding": 1
+        },
+        {
+            "name": "conv2",
+            "func": "conv_layer",
+            "input_bits": 2,
+            "output_bits": 2,
+            "weight_bits": 1,
+            "threshold_bits": 16,
+            "kernel_shape": 3,
+            "kernel_stride": 1,
+            "input_channels": 64,
+            "input": [64, 14, 14],
+            "output_channels": 64,
+            "output": [64, 14, 14],
+            "padding": 1
+        },
+        {
+            "name": "pool1",
+            "func": "maxpool_layer",
+            "input_bits": 2,
+            "output_bits": 2,
+            "kernel_shape": 3,
+            "kernel_stride": 2,
+            "input_channels": 64,
+            "input": [64, 14, 14],
+            "output_channels": 64,
+            "output": [64, 7, 7],
+            "padding": 0
+        },
+        {
+            "name": "conv3",
+            "func": "conv_layer",
+            "input_bits": 2,
+            "output_bits": 2,
+            "weight_bits": 1,
+            "threshold_bits": 16,
+            "kernel_shape": 3,
+            "kernel_stride": 1,
+            "input_channels": 64,
+            "input": [64, 7, 7],
+            "output_channels": 64,
+            "output": [64, 5, 5],
+            "padding": 0
+        },
+        {
+            "name": "fc0",
+            "func": "fc_layer",
+            "input":  1600,
+            "output": 512
+        },
+        {
+            "name": "fc1",
+            "func": "fc_layer",
+            "input": 512,
+            "output": 10
+        }
+    ]
+}

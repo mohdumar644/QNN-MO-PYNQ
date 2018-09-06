@@ -1,3 +1,0 @@
-car: 86%
-dog: 86%
-bicycle: 78%

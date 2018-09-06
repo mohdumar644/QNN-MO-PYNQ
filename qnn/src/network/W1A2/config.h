@@ -41,11 +41,11 @@
 
 // conv layer dimension boundaries
 #define MAX_K                   5
-#define MAX_IFM_CH              384
+#define MAX_IFM_CH              256
 #define MAX_IFM_DIM             64
-#define MAX_OFM_CH              384
+#define MAX_OFM_CH              256
 #define MAX_OFM_DIM             64
-#define MAX_POOL_SIZE           3
+#define MAX_POOL_SIZE           2
 #define MAX_POOL_STRIDE         2
 // conv layer memory dimension boundaries
 #define MAX_CONV_WMEM           ((MAX_K*MAX_K * MAX_OFM_CH * MAX_IFM_CH) / (MAX_PE_CONV * MAX_SIMD))
