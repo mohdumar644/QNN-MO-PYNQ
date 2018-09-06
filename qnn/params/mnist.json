@@ -2,7 +2,7 @@
     "network": "mnist",
     "input_image": "/path/to/testing.bin",
     "verification_image": "/path/to/verification.bin",    
-    "binparam": "/path/to/binparam-mnist",
+    "binparam": "/home/xilinx/jupyter_notebooks/QNN/qnn/params/binparam-mnist",
     "use_binparams" : true,
     "binparam_skip" : 1,
     "layer_skip" : 1,
