@@ -17,6 +17,7 @@ import os
 import sys
 import scipy.io
 from dorefa import get_dorefa
+np.set_printoptions(suppress=True)
 
 BITW = 1
 BITA = 2
@@ -38,7 +39,7 @@ class Model(ModelDesc):
         def binarize_weight(v):
             name = v.op.name
             # don't binarize first and last layer
-            if not name.endswith('W') or  'fc' in name:
+            if not name.endswith('W') or  'fc' in name or 'conv0' in name:
                 return v
             else:
                 logger.info("Binarizing weight {}".format(v.op.name))
@@ -57,24 +58,27 @@ class Model(ModelDesc):
                 argscope(BatchNorm, momentum=0.9, epsilon=1e-4), \
                 argscope(Conv2D, use_bias=False):
             logits = (LinearWrap(image)
-                      .apply(activate)
  
-                      .Conv2D('conv0', 32, 3, padding='VALID')
+                      .Conv2D('conv0', 64, 3, padding='SAME', use_bias=True)
                       .apply(fg)
-                      .BatchNorm('bn0').apply(activate)
-
-                      .Conv2D('conv1', 64, 3, padding='VALID')
+                      #.BatchNorm('bn0')
+                      .MaxPooling('pool0', 2, padding='SAME')                      
+                      .apply(activate)
+                      
+                      .Conv2D('conv1', 64, 3, padding='SAME')
                       .apply(fg)
-                      .BatchNorm('bn1').apply(activate)
+                      .BatchNorm('bn1')
+                      .apply(activate)
                       .MaxPooling('pool1', 2, padding='SAME')
 		       
                       .Conv2D('conv2', 64, 3, padding='VALID')
                       .apply(fg)
-                      .BatchNorm('bn2')     .apply(activate)
-                      .MaxPooling('pool2', 2, padding='SAME')
+                      .BatchNorm('bn2')
+                      .apply(activate)
  
                       .tf.nn.dropout(0.5 if is_training else 1.0)  
                       .FullyConnected('fc0', 512) 
+                      .apply(cabs)
                       .FullyConnected('fc1', 10)())
                       
         tf.nn.softmax(logits, name='output')
@@ -152,20 +156,21 @@ def run_image(model, sess_init, inputs):
         imgaug.Resize((IMG_WIDTH, IMG_WIDTH))
     ] )
     
-    classes = {1: '1',2:'2',3:'3',4:'4',5:'5',6:'6',7:'7',8:'8',9:'9',0:'0'}
     for f in inputs:
         assert os.path.isfile(f), f
         img = cv2.imread(f,0).astype('float32') 
+        img = img / 255.0
         img = img[np.newaxis,:,:] 
         assert img is not None
-        outputs = predictor(img)  
-        outputs = outputs[0]
+        outputs_all = predictor(img)  
+        outputs = outputs_all[0]
         prob = outputs[0]
         ps = np.exp(prob) / np.sum(np.exp(prob), axis=0) 
         predict= np.argmax(prob)
         ret = prob.argsort()[-10:][::-1]
        
         print('Predicted Class: {0}'.format(ret[0]))
+        
 
  
 if __name__ == '__main__':

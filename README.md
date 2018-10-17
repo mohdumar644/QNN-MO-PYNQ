@@ -21,6 +21,7 @@ The repo is organized as follows:
 -	qnn:  
 	-	src: 
 		- network: overlay topology (W1A2 MNIST) HLS top functions, host code and make script for HW and SW built
+		- training: python scripts for training the network in Tensorpack, and the Finnthesizer script for QNN
 	-	bitstreams: .bit, .tcl and network .json for the above network
 	-	params: set of trained parameters and the layers .json for the MNIST overlay
 	

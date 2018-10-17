@@ -47,7 +47,7 @@ if __name__ == "__main__":
     rHW = BNNWeightReader(npzFile, True)
     
     # process convolutional layers
-    for convl in range(1, 4):
+    for convl in range(1, 3):
       peCount = peCounts
       simdCount = simdCounts
       print "\n\nUsing peCount = %d simdCount = %d for engine %d" % (peCount, simdCount, convl)

@@ -20,7 +20,7 @@
             "input": [1, 28, 28],
             "output_channels": 64,
             "output": [64, 28, 28],
-            "padding": 0
+            "padding": 1
         },
         {
             "name": "pool0",
@@ -51,21 +51,6 @@
             "padding": 1
         },
         {
-            "name": "conv2",
-            "func": "conv_layer",
-            "input_bits": 2,
-            "output_bits": 2,
-            "weight_bits": 1,
-            "threshold_bits": 16,
-            "kernel_shape": 3,
-            "kernel_stride": 1,
-            "input_channels": 64,
-            "input": [64, 14, 14],
-            "output_channels": 64,
-            "output": [64, 14, 14],
-            "padding": 1
-        },
-        {
             "name": "pool1",
             "func": "maxpool_layer",
             "input_bits": 2,
@@ -79,7 +64,7 @@
             "padding": 0
         },
         {
-            "name": "conv3",
+            "name": "conv2",
             "func": "conv_layer",
             "input_bits": 2,
             "output_bits": 2,
@@ -107,3 +92,4 @@
         }
     ]
 }
+
